@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/x-icon" href="assets/pro.ico" />
+    <title>Inicio De Sesion</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <style>
+        #particles-js {
+            background: #00ffff;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+    </style>
+    
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+</head>
+
+<body>
+    <div id="particles-js"></div>
+    <main class="container">
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <br /><br />
+                <div class="card">
+                    <div class="card-header text-center">
+                        <strong>INICIAR SESIÓN</strong>
+                    </div>
+                    <div class="card-body">
+                        <div class="position-relative">
+                            <div class="position-relative d-flex justify-content-center align-items-center" style="height: 100%;">
+                                <img src="assets/logo.png" alt="" style="bottom: 0;" width="200px" height="100px"/>
+                            </div>
+
+                            <form id="formLogin" action="javascript:void(0);">
+                                <div class="mb-3">
+                                    <label for="correo" class="form-label">Correo:</label>
+                                    <input type="email" class="form-control" name="correo" id="correo" 
+                                           placeholder="Escriba su correo" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="contrasena" class="form-label">Contraseña:</label>
+                                    <input type="password" class="form-control" name="contrasena" id="contrasena" 
+                                           placeholder="Escriba su contraseña" required/>
+                                </div>
+
+                                <div class="mb-3 text-center">
+                                    <button type="submit" class="btn btn-primary">
+                                        Entrar al sistema
+                                    </button>
+                                </div>
+                            </form>
+                            <div class="text-center">
+                                <p>¿No tienes una cuenta? <a href="registro.html" class="text-primary">Regístrate aquí</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
+    <script>
+        particlesJS("particles-js", {
+            "particles": {
+                "number": {
+                    "value": 180,
+                    "density": {
+                        "enable": true,
+                        "value_area": 800
+                    }
+                },
+                "color": {
+                    "value": "#ffffff"
+                },
+                "shape": {
+                    "type": "circle",
+                    "stroke": {
+                        "width": 0,
+                        "color": "#000000"
+                    },
+                    "polygon": {
+                        "nb_sides": 0
+                    }
+                },
+                "opacity": {
+                    "value": 0.5,
+                    "random": false,
+                    "anim": {
+                        "enable": false,
+                        "speed": 1,
+                        "opacity_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "size": {
+                    "value": 3,
+                    "random": true,
+                    "anim": {
+                        "enable": false,
+                        "speed": 40,
+                        "size_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "line_linked": {
+                    "enable": true,
+                    "distance": 150,
+                    "color": "#ffffff",
+                    "opacity": 0.4,
+                    "width": 1
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 10,
+                    "direction": "none",
+                    "random": false,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false,
+                    "attract": {
+                        "enable": false,
+                        "rotateX": 600,
+                        "rotateY": 1200
+                    }
+                }
+            },
+            "interactivity": {
+                "detect_on": "window",
+                "events": {
+                    "onhover": {
+                        "enable": true,
+                        "mode": "grab"
+                    },
+                    "onclick": {
+                        "enable": true,
+                        "mode": "push"
+                    },
+                    "resize": true
+                },
+                "modes": {
+                    "grab": {
+                        "distance": 400,
+                        "line_linked": {
+                            "opacity": 1
+                        }
+                    },
+                    "push": {
+                        "particles_nb": 4
+                    }
+                }
+            },
+            "retina_detect": true
+        });
+    </script>
+    <!-- Script para el manejo del formulario -->
+    <script>
+        // Configuración de particles.js
+        particlesJS("particles-js", {
+            // ... (mantener la configuración existente de particles.js)
+        });
+
+        // Manejo del formulario de login
+        document.getElementById('formLogin').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const datos = {
+                correo: document.getElementById('correo').value,
+                contrasea: document.getElementById('contrasena').value
+            };
+
+            try {
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(datos)
+                });
+
+                const result = await response.json();
+                
+                if(result.success) {
+                    // Almacenar datos del usuario si es necesario
+                    localStorage.setItem('usuario', JSON.stringify(result.usuario));
+                    
+                    // Redireccionar al dashboard o página principal
+                    window.location.href = 'dashboard.html';
+                } else {
+                    alert(result.message);
+                }
+            } catch(error) {
+                alert('Error en el inicio de sesión: ' + error);
+            }
+        });
+    </script>
+</body>
+</html>
