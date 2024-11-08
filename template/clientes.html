@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Clientes - Hotel DailyPay</title>
+    <link rel="icon" type="image/x-icon" href="assets/hotel-bell.png" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+        .navbar-brand {
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        .container {
+            margin-top: 2rem;
+        }
+        .card {
+            border: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .btn-logout {
+            color: #dc3545;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar se mantiene igual -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-hotel me-2"></i>Administrador Hotel DailyPay
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard.html">
+                            <i class="fas fa-chart-line me-1"></i>Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="reservas.html">
+                            <i class="fas fa-calendar-check me-1"></i>Reservas
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="clientes.html">
+                            <i class="fas fa-users me-1"></i>Clientes
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="habitaciones.html">
+                            <i class="fas fa-door-closed me-1"></i>Habitaciones
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="calendario.html">
+                            <i class="fas fa-calendar-alt me-1"></i>Calendario
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn-logout" href="#" onclick="cerrarSesion()">
+                            <i class="fas fa-sign-out-alt me-1"></i>Cerrar Sesión
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1 class="my-4"><i class="fas fa-user-friends me-2"></i>Gestión de Clientes</h1>
+        
+        <!-- Formulario de nuevo cliente -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title mb-3">Nuevo Cliente</h5>
+                <form id="clienteForm" onsubmit="guardarCliente(event)">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="nombre" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" id="correo" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Teléfono</label>
+                            <input type="tel" class="form-control" id="telefono" required>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label class="form-label">Dirección</label>
+                            <input type="text" class="form-control" id="direccion">
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary">Registrar Cliente</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Tabla de clientes -->
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title mb-3">Lista de Clientes</h5>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Email</th>
+                                <th>Teléfono</th>
+                                <th>Dirección</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="clientesTableBody">
+                            <!-- Los clientes se cargarán dinámicamente aquí -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Edición -->
+    <div class="modal fade" id="editarModal" tabindex="-1" aria-labelledby="editarModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editarModalLabel">Editar Cliente</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editarForm">
+                        <input type="hidden" id="editId">
+                        <div class="mb-3">
+                            <label class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="editNombre" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" id="editCorreo" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Teléfono</label>
+                            <input type="tel" class="form-control" id="editTelefono" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Dirección</label>
+                            <input type="text" class="form-control" id="editDireccion">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" onclick="actualizarCliente()">Guardar Cambios</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Variable para mantener referencia al modal
+        let editarModal;
+        
+        // Inicializar el modal cuando el DOM esté cargado
+        document.addEventListener('DOMContentLoaded', function() {
+            editarModal = new bootstrap.Modal(document.getElementById('editarModal'));
+            cargarClientes();
+        });
+
+        // Función para cargar la lista de clientes
+        async function cargarClientes() {
+            try {
+                const response = await fetch('/api/huespedes');
+                const data = await response.json();
+                
+                if (data.success) {
+                    const tableBody = document.getElementById('clientesTableBody');
+                    tableBody.innerHTML = ''; // Limpiar tabla
+                    
+                    data.data.forEach(cliente => {
+                        tableBody.innerHTML += `
+                            <tr>
+                                <td>${cliente.id_huesped}</td>
+                                <td>${cliente.nombre}</td>
+                                <td>${cliente.correo}</td>
+                                <td>${cliente.telefono}</td>
+                                <td>${cliente.direccion}</td>
+                                <td>
+                                    <button class="btn btn-sm btn-primary" onclick="abrirModalEditar(${JSON.stringify(cliente).replace(/"/g, '&quot;')})">Editar</button>
+                                    <button class="btn btn-sm btn-danger" onclick="confirmarEliminar(${cliente.id_huesped})">Eliminar</button>
+                                </td>
+                            </tr>
+                        `;
+                    });
+                } else {
+                    alert('Error al cargar los clientes');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error al conectar con el servidor');
+            }
+        }
+
+        // Función para guardar un nuevo cliente
+        async function guardarCliente(event) {
+            event.preventDefault();
+            
+            const clienteData = {
+                nombre: document.getElementById('nombre').value,
+                correo: document.getElementById('correo').value,
+                telefono: document.getElementById('telefono').value,
+                direccion: document.getElementById('direccion').value
+            };
+
+            try {
+                const response = await fetch('/api/guardarhuespedes', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(clienteData)
+                });
+
+                const data = await response.json();
+
+                if (response.status === 201) {
+                    alert('Cliente guardado exitosamente');
+                    document.getElementById('clienteForm').reset();
+                    cargarClientes();
+                } else {
+                    alert('Error al guardar el cliente: ' + data.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error al conectar con el servidor');
+            }
+        }
+
+        // Función para abrir el modal de edición
+        function abrirModalEditar(cliente) {
+            document.getElementById('editId').value = cliente.id_huesped;
+            document.getElementById('editNombre').value = cliente.nombre;
+            document.getElementById('editCorreo').value = cliente.correo;
+            document.getElementById('editTelefono').value = cliente.telefono;
+            document.getElementById('editDireccion').value = cliente.direccion;
+            editarModal.show();
+        }
+
+        // Función para actualizar un cliente
+        async function actualizarCliente() {
+            const id = document.getElementById('editId').value;
+            const clienteData = {
+                nombre: document.getElementById('editNombre').value,
+                correo: document.getElementById('editCorreo').value,
+                telefono: document.getElementById('editTelefono').value,
+                direccion: document.getElementById('editDireccion').value
+            };
+
+            try {
+                const response = await fetch(`/api/huespedes/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(clienteData)
+                });
+
+                const data = await response.json();
+
+                if (response.status === 200) {
+                    alert('Cliente actualizado exitosamente');
+                    editarModal.hide();
+                    cargarClientes();
+                } else {
+                    alert('Error al actualizar el cliente: ' + data.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error al conectar con el servidor');
+            }
+        }
+
+        // Función para confirmar eliminación
+        function confirmarEliminar(id) {
+            if (confirm('¿Está seguro de que desea eliminar este cliente?')) {
+                eliminarCliente(id);
+            }
+        }
+
+        // Función para eliminar un cliente
+        async function eliminarCliente(id) {
+            try {
+                const response = await fetch(`/api/huespedes/${id}`, {
+                    method: 'DELETE'
+                });
+
+                const data = await response.json();
+
+                if (response.status === 200) {
+                    alert('Cliente eliminado exitosamente');
+                    cargarClientes();
+                } else {
+                    alert('Error al eliminar el cliente: ' + data.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error al conectar con el servidor');
+            }
+        }
+
+        // Función para cerrar sesión
+        function cerrarSesion() {
+            localStorage.removeItem('usuario');
+            window.location.href = 'index.html';
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" crossorigin="anonymous"></script>
+</body>
+</html>
